@@ -103,9 +103,9 @@ public class ImlisteningApplication {
 
 				Body bodyResponse = new Body.Builder("Your message has been processed.").build();
 				com.twilio.twiml.messaging.Message sms = new com.twilio.twiml.messaging.Message.Builder()
-                    .body(bodyResponse)
-                    .build();
-            MessagingResponse twiml = new MessagingResponse.Builder().message(sms).build();
+						.body(bodyResponse)
+						.build();
+				MessagingResponse twiml = new MessagingResponse.Builder().message(sms).build();
 
 				try {
 					return ResponseEntity.ok().contentType(MediaType.APPLICATION_XML).body(twiml.toXml());
@@ -118,6 +118,12 @@ public class ImlisteningApplication {
 				return ResponseEntity.status(500).body("Error processing SMS.");
 			}
 		}
+	
+		@GetMapping("/test")
+    public ResponseEntity<String> testRoute() {
+        return ResponseEntity.ok("This is a test route.");
+    }
+	
 	}
 	
 	public static class SmsSender {
