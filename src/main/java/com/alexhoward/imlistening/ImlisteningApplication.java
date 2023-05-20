@@ -12,7 +12,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import io.github.cdimascio.dotenv.Dotenv;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.twilio.Twilio;
@@ -45,7 +44,6 @@ public class ImlisteningApplication {
 	@RestController
 	@RequestMapping("/api")
 	public class FrasierController {
-		private Dotenv dotenv = Dotenv.load();
 
 		@PostMapping("/send")
 		public String send(@RequestBody InputData data) {
@@ -71,7 +69,7 @@ public class ImlisteningApplication {
 
 				HttpClient httpClient = HttpClients.createDefault();
 				HttpPost request = new HttpPost("https://api.openai.com/v1/chat/completions");
-				request.setHeader("Authorization", "Bearer " + dotenv.get("OPENAI_API_KEY"));
+				request.setHeader("Authorization", "Bearer " + System.getenv("OPENAI_API_KEY"));
 				request.setHeader("Content-Type", "application/json");
 
 				StringEntity requestBody = new StringEntity(json.toString(), "UTF-8");
