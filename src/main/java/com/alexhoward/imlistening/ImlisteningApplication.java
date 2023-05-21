@@ -15,9 +15,25 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.Gson;
+import java.util.Random;
 
 @SpringBootApplication
 public class ImlisteningApplication {
+
+		private static final String[] FRASIER_QUOTES = {
+				"Frasier has left the building, but fear not, he's merely contemplating a cure for this conundrum. Please try again.",
+				"My apologies, but it seems your inquiry has slipped into radio silence. Much like my dear brother Niles around a particularly pungent camembert. Do give it another whirl, won't you?",
+				"Apologies, my dear user. This is more confounding than the third act of a Tchaikovsky opera. I'll be right back after a brief intermission. Kindly rephrase or try again.",
+				"Ah, the plot thickens, much like my famous béchamel sauce. I'm afraid your request is currently in a state of existential crisis. Please try again."
+		};
+
+		private static final Random RANDOM = new Random();
+
+		public static String getQuote() {
+				int index = RANDOM.nextInt(FRASIER_QUOTES.length);
+				return FRASIER_QUOTES[index];
+		}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(ImlisteningApplication.class, args);
@@ -70,16 +86,21 @@ public class ImlisteningApplication {
 				String responseBody = EntityUtils.toString(entity, "UTF-8");
 				
 				JsonObject jsonResponse = new Gson().fromJson(responseBody, JsonObject.class);
-				String answer = jsonResponse
-					.getAsJsonArray("choices")
-					.get(0)
-					.getAsJsonObject()
-					.getAsJsonObject("message")
-					.get("content")
-					.getAsString();
 
+				JsonArray choicesArray = jsonResponse.getAsJsonArray("choices");
 
-				return answer;
+				if (choicesArray != null && choicesArray.size() > 0) {
+					JsonObject firstChoice = choicesArray.get(0).getAsJsonObject();
+					JsonObject message = firstChoice.getAsJsonObject("message");
+
+					if (message != null && message.has("content")) {
+						String answer = message.get("content").getAsString();
+						return answer;
+					}
+				}
+						
+
+            return getQuote();
 
 			} catch (Exception e) {
 				e.printStackTrace();
