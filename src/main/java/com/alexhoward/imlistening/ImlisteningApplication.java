@@ -53,7 +53,7 @@ public class ImlisteningApplication {
 
 				JsonObject json = new JsonObject();
 				json.add("messages", messages);
-				json.addProperty("max_tokens", 150);
+				json.addProperty("max_tokens", 250);
 				json.addProperty("model", "gpt-3.5-turbo");
 
 				HttpClient httpClient = HttpClients.createDefault();
