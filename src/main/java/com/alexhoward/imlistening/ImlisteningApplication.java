@@ -151,13 +151,14 @@ public class ImlisteningApplication {
 	public class WebhookController {
 
 		@PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-		public ResponseEntity<String> handleWebhook(@RequestBody MultiValueMap<String, String> body) {
+		public ResponseEntity<String> handleWebhook(
+			@RequestParam("Body") String body,
+			@RequestParam("From") String fromNumber
+		) {
 
-			body.forEach((key, value) -> {
-				System.out.println(key + ": " + value);
-			});
+			System.out.println("Received SMS from: " + fromNumber + ", Content: " + body);
 
-			return ResponseEntity.ok(body.keySet().toString());
+			return ResponseEntity.ok(fromNumber + " " + body);
 		}
 	}
 
