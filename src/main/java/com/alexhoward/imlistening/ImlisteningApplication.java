@@ -2,6 +2,7 @@ package com.alexhoward.imlistening;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.http.MediaType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -143,6 +144,23 @@ public class ImlisteningApplication {
         System.out.println("Message sent. ID: " + message.getSid());
     }
 	}
+
+
+	@RestController
+	@RequestMapping("/webhook")
+	public class WebhookController {
+
+		@PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+		public ResponseEntity<String> handleWebhook(@RequestBody MultiValueMap<String, String> body) {
+			
+			body.forEach((key, value) -> {
+				System.out.println("Key: " + key + ", Value: " + value);
+			});
+
+			return ResponseEntity.ok("Webhook received");
+		}
+	}
+
 }
 
 
