@@ -152,12 +152,12 @@ public class ImlisteningApplication {
 
 		@PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 		public ResponseEntity<String> handleWebhook(@RequestBody MultiValueMap<String, String> body) {
-			
+
 			body.forEach((key, value) -> {
-				System.out.println("Key: " + key + ", Value: " + value);
+				System.out.println(key + ": " + value);
 			});
 
-			return ResponseEntity.ok("Webhook received");
+			return ResponseEntity.ok(body.keySet().toString());
 		}
 	}
 
