@@ -2,7 +2,6 @@ package com.alexhoward.imlistening;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.http.MediaType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
-import com.twilio.Twilio;
-import com.twilio.type.PhoneNumber;
-import com.twilio.twiml.MessagingResponse;
-import com.twilio.twiml.TwiMLException;
-import com.twilio.twiml.messaging.*;
-import com.twilio.rest.api.v2010.account.Message;
-
+import com.google.gson.Gson;
 
 @SpringBootApplication
 public class ImlisteningApplication {
@@ -50,7 +43,7 @@ public class ImlisteningApplication {
 				JsonObject systemMessage = new JsonObject();
 				systemMessage.addProperty("role", "system");
 				systemMessage.addProperty("content",
-						"You are Frasier Crane from the TV show Frasier, and I am your brother Niles Crane. ");
+						"You are Frasier Crane from the TV show Frasier, who hams up and makes every answer as dramatic as possible, and I am your brother Niles Crane. ");
 				messages.add(systemMessage);
 
 				JsonObject userMessage = new JsonObject();
@@ -75,7 +68,18 @@ public class ImlisteningApplication {
 				HttpEntity entity = response.getEntity();
 
 				String responseBody = EntityUtils.toString(entity, "UTF-8");
-				return responseBody;
+				
+				JsonObject jsonResponse = new Gson().fromJson(responseBody, JsonObject.class);
+				String answer = jsonResponse
+					.getAsJsonArray("choices")
+					.get(0)
+					.getAsJsonObject()
+					.getAsJsonObject("message")
+					.get("content")
+					.getAsString();
+
+
+				return answer;
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -97,7 +101,7 @@ public class ImlisteningApplication {
 			System.out.println("Received SMS from: " + fromNumber + ", Content: " + body);
 			String response = askChatGpt(body);
 			System.out.println("Response: " + response);
-			
+
 			return ResponseEntity.ok(response);
 		}
 	}
