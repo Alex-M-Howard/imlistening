@@ -142,9 +142,13 @@ public class ImlisteningApplication {
 
 	    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	    public ResponseEntity<String> handleWebhookError() {
-		int index = RANDOM.nextInt(FRASIER_QUOTES.length);
+	        int index = RANDOM.nextInt(FRASIER_QUOTES.length);
 		String quote = FRASIER_QUOTES[index];
-		return ResponseEntity.ok(quote);
-	    }
-}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_PLAIN);
+
+		return ResponseEntity.ok().headers(headers).body(quote);
+            }
+    }
 }
