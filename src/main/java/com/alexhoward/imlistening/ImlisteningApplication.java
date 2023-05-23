@@ -126,4 +126,25 @@ public class ImlisteningApplication {
 			return ResponseEntity.ok(response);
 		}
 	}
+	
+	@RestController
+	@RequestMapping("/webhookError")
+	public class WebhookErrorController {
+
+	    private static final String[] FRASIER_QUOTES = {
+		"Frasier has left the building, but fear not, he's merely contemplating a cure for this conundrum. Please try again.",
+		"My apologies, but it seems your inquiry has slipped into radio silence. Much like my dear brother Niles around a particularly pungent camembert. Do give it another whirl, won't you?",
+		"Apologies, my dear user. This is more confounding than the third act of a Tchaikovsky opera. I'll be right back after a brief intermission. Kindly rephrase or try again.",
+		"Ah, the plot thickens, much like my famous béchamel sauce. I'm afraid your request is currently in a state of existential crisis. Please try again."
+	    };
+
+	    private static final Random RANDOM = new Random();
+
+	    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	    public ResponseEntity<String> handleWebhookError() {
+		int index = RANDOM.nextInt(FRASIER_QUOTES.length);
+		String quote = FRASIER_QUOTES[index];
+		return ResponseEntity.ok(quote);
+	    }
+}
 }
