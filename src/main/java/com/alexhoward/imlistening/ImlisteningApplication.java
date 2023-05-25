@@ -133,7 +133,7 @@ public class ImlisteningApplication {
 	public class WebhookErrorController {
 
 	    private static final String[] FRASIER_QUOTES = {
-		"Frasier has left the building, but fear not, he's merely contemplating a cure for this conundrum. Please try again.",
+		"As we speak, hordes of viral Visigoths are hurling themselves over the battlements of my immune system, laying waste to my... Oh, dear God, you see how weak I am? I can't even finish a simple Visigoth metaphor. Please try again later.",
 		"My apologies, but it seems your inquiry has slipped into radio silence. Much like my dear brother Niles around a particularly pungent camembert. Do give it another whirl, won't you?",
 		"Apologies, my dear user. This is more confounding than the third act of a Tchaikovsky opera. I'll be right back after a brief intermission. Kindly rephrase or try again.",
 		"Ah, the plot thickens, much like my famous béchamel sauce. I'm afraid your request is currently in a state of existential crisis. Please try again."
